@@ -15,3 +15,7 @@ plan:
 apply:
 	$(MAKE) init
 	terraform apply
+
+destroy:
+	$(MAKE) init
+	terraform destroy
