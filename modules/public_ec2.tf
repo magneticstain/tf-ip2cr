@@ -2,6 +2,7 @@
 resource "aws_instance" "ip2cr-test" {
   ami = "ami-053b0d53c279acc90"  # Ubuntu Server 22.04 LTS
   instance_type = "t2.micro"
+  key_name = "jimmy1"  # update as needed
 
   tags = {
     "Name": "ip2cr-test"
