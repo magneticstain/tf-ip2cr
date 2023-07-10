@@ -15,6 +15,8 @@ provider "aws" {
   region  = "us-east-1"
 }
 
-module "modules" {
-    source = "./modules"
+module "ip2cr-test-suite" {
+    source = "./modules/ip2cr_test_suite"
+    subnets = var.subnets
+    vpc = var.vpc
 }

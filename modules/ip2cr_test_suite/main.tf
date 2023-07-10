@@ -9,8 +9,8 @@ resource "aws_instance" "ip2cr-test" {
   key_name = "default"  # update as needed
 
   tags = {
-    "Name": "ip2cr-test"
-    "app": "ip2cr"
+    Name: "ip2cr-testing"
+    app: "ip2cr-testing"
   }
 }
 
@@ -30,16 +30,24 @@ resource "aws_security_group" "ip2cr-test-sg" {
 resource "aws_lb" "ip2cr-testing-alb" {
   name               = "IP2CR-Testing-ALB"
   load_balancer_type = "application"
-  subnets            = ["subnet-06a2ae760a3f27e40", "subnet-01e351716cd2b9f49"]  # Update Me
+  subnets            = var.subnets
   security_groups    = [aws_security_group.ip2cr-test-sg.id]
+
+  tags = {
+    app: "ip2cr-testing"
+  }
 }
 
 resource "aws_lb_target_group" "ip2cr-testing-tg" {
   name        = "IP2CR-Testing-TgtGrp"
   port        = 80
   protocol    = "HTTP"
-  vpc_id      = "vpc-07e884ddac0458356"  # Update Me
+  vpc_id      = var.vpc
   target_type = "instance"
+
+  tags = {
+    app: "ip2cr-testing"
+  }
 }
 
 resource "aws_lb_target_group_attachment" "ip2cr-testing-tg-attachment" {
@@ -57,6 +65,10 @@ resource "aws_lb_listener" "ip2cr-testing-alb-listener" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.ip2cr-testing-tg.arn
   }
+
+  tags = {
+    app: "ip2cr-testing"
+  }
 }
 
 # cloudfront
@@ -72,7 +84,7 @@ resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
     }
   }
 
-  enabled             = true
+  enabled = true
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
@@ -97,7 +109,7 @@ resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
   }
 
   tags = {
-    app = "ip2cr"
+    app: "ip2cr-testing"
   }
 
   viewer_certificate {
@@ -110,17 +122,25 @@ resource "aws_lb" "ip2cr-testing-nlb" {
   name               = "IP2CR-Testing-NLB"
   internal           = false
   load_balancer_type = "network"
-  subnets            = ["subnet-06a2ae760a3f27e40", "subnet-01e351716cd2b9f49"]  # Update Me
+  subnets            = var.subnets
 
   enable_cross_zone_load_balancing = false
+
+  tags = {
+    app: "ip2cr-testing"
+  }
 }
 
 resource "aws_lb_target_group" "ip2cr-testing-nlb-tg" {
   name        = "IP2CR-Testing-NLB-TgtGrp"
   port        = 80
   protocol    = "TCP"
-  vpc_id      = "vpc-07e884ddac0458356"  # Update Me
+  vpc_id      = var.vpc
   target_type = "instance"
+
+  tags = {
+    app: "ip2cr-testing"
+  }
 }
 
 resource "aws_lb_target_group_attachment" "ip2cr-testing-nlb-tg-attachment" {
@@ -137,5 +157,9 @@ resource "aws_lb_listener" "ip2cr-testing-nlb-listener" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.ip2cr-testing-nlb-tg.arn
+  }
+
+  tags = {
+    app: "ip2cr-testing"
   }
 }
