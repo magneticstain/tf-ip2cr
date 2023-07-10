@@ -2,11 +2,11 @@
 
 # At a high level, we want to create an EC2 instance, put a NLB and ALB in front of it, and then attach a newly-created cloudfront distro to the ALB
 
-# publicly accessible EC2 instance
+# ec2
 resource "aws_instance" "ip2cr-test" {
-  ami = "ami-053b0d53c279acc90"  # Ubuntu Server 22.04 LTS
+  ami = var.ami_id
   instance_type = "t2.micro"
-  key_name = "default"  # update as needed
+  key_name = var.key_pair_name
 
   tags = {
     Name: "ip2cr-testing"
