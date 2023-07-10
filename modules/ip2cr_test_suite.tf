@@ -104,3 +104,38 @@ resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
     cloudfront_default_certificate = true
   }
 }
+
+# nlb
+resource "aws_lb" "ip2cr-testing-nlb" {
+  name               = "IP2CR-Testing-NLB"
+  internal           = false
+  load_balancer_type = "network"
+  subnets            = ["subnet-06a2ae760a3f27e40", "subnet-01e351716cd2b9f49"]  # Update Me
+
+  enable_cross_zone_load_balancing = false
+}
+
+resource "aws_lb_target_group" "ip2cr-testing-nlb-tg" {
+  name        = "IP2CR-Testing-NLB-TgtGrp"
+  port        = 80
+  protocol    = "TCP"
+  vpc_id      = "vpc-07e884ddac0458356"  # Update Me
+  target_type = "instance"
+}
+
+resource "aws_lb_target_group_attachment" "ip2cr-testing-nlb-tg-attachment" {
+  target_group_arn = aws_lb_target_group.ip2cr-testing-nlb-tg.arn
+  target_id        = aws_instance.ip2cr-test.id
+  port             = 80
+}
+
+resource "aws_lb_listener" "ip2cr-testing-nlb-listener" {
+  load_balancer_arn = aws_lb.ip2cr-testing-nlb.arn
+  port              = 80
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ip2cr-testing-nlb-tg.arn
+  }
+}
