@@ -16,6 +16,14 @@ Currently, this set of terraform plans:
 
 This should provide several vectors for testing IP2CR.
 
+## Requirements
+
+### IPv6
+
+These plans create resources with IPv6 addresses by default. In order to facilitate that, it's required to enable IPv6 for you VPC/subnets.
+
+For instructions on how to do that, see [thes docs AWS has on the subject](https://docs.aws.amazon.com/whitepapers/latest/ipv6-on-aws/amazon-vpc-design.html).
+
 ## Usage
 
 ### Bootstrap the Prerequisite Resources
