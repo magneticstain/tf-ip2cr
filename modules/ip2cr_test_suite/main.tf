@@ -4,9 +4,10 @@
 
 # ec2
 resource "aws_instance" "ip2cr-test" {
-  ami = var.ami_id
-  instance_type = "t2.micro"
-  key_name = var.key_pair_name
+  ami                 = var.ami_id
+  instance_type       = "t2.micro"
+  key_name            = var.key_pair_name
+  ipv6_address_count  = 1
 
   tags = {
     Name: "ip2cr-testing"
@@ -31,6 +32,7 @@ resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
   origin {
     domain_name = aws_lb.ip2cr-testing-alb.dns_name
     origin_id   = "ip2cr-alb-origin"
+
     custom_origin_config {
       http_port              = 80
       https_port             = 443
@@ -39,7 +41,7 @@ resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
     }
   }
 
-  enabled = true
+  enabled         = true
   is_ipv6_enabled = true
 
   default_cache_behavior {
