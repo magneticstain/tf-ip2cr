@@ -26,7 +26,55 @@ resource "aws_security_group" "ip2cr-test-sg" {
   }
 }
 
-# alb
+# cloudfront
+resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
+  origin {
+    domain_name = aws_lb.ip2cr-testing-alb.dns_name
+    origin_id   = "ip2cr-alb-origin"
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  enabled = true
+  is_ipv6_enabled = true
+
+  default_cache_behavior {
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id = "ip2cr-alb-origin"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "allow-all"
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  tags = {
+    app: "ip2cr-testing"
+  }
+
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+}
+
+# elbs
+## alb
 resource "aws_lb" "ip2cr-testing-alb" {
   name               = "IP2CR-Testing-ALB"
   load_balancer_type = "application"
@@ -71,53 +119,7 @@ resource "aws_lb_listener" "ip2cr-testing-alb-listener" {
   }
 }
 
-# cloudfront
-resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
-  origin {
-    domain_name = aws_lb.ip2cr-testing-alb.dns_name
-    origin_id   = "ip2cr-alb-origin"
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }
-
-  enabled = true
-
-  default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "ip2cr-alb-origin"
-
-    forwarded_values {
-      query_string = false
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    viewer_protocol_policy = "allow-all"
-  }
-
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-    }
-  }
-
-  tags = {
-    app: "ip2cr-testing"
-  }
-
-  viewer_certificate {
-    cloudfront_default_certificate = true
-  }
-}
-
-# nlb
+## nlb
 resource "aws_lb" "ip2cr-testing-nlb" {
   name               = "IP2CR-Testing-NLB"
   internal           = false
