@@ -78,6 +78,7 @@ resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
 resource "aws_lb" "ip2cr-testing-alb" {
   name               = "IP2CR-Testing-ALB"
   load_balancer_type = "application"
+  ip_address_type    = "dualstack"
   subnets            = var.subnets
   security_groups    = [aws_security_group.ip2cr-test-sg.id]
 
@@ -124,6 +125,7 @@ resource "aws_lb" "ip2cr-testing-nlb" {
   name               = "IP2CR-Testing-NLB"
   internal           = false
   load_balancer_type = "network"
+  ip_address_type    = "dualstack"
   subnets            = var.subnets
 
   enable_cross_zone_load_balancing = false
