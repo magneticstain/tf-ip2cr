@@ -169,3 +169,23 @@ resource "aws_lb_listener" "ip2cr-testing-nlb-listener" {
     app: "ip2cr-testing"
   }
 }
+
+## classic (aka ELBv1)
+resource "aws_elb" "ip2cr-testing-elb" {
+  name                      = "IP2CR-Testing-ELB"
+  availability_zones        = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  
+  listener {
+    instance_port     = 80
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
+
+  instances                 = [aws_instance.ip2cr-test.id]
+  cross_zone_load_balancing = false
+
+  tags = {
+    app: "ip2cr-testing"
+  }
+}
