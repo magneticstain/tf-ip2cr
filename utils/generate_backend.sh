@@ -5,7 +5,7 @@
 # Thanks ChatGPT :)
 #
 
-PROJ_NAME="ip2cr-$(date +%s)"
+PROJ_NAME="ip2cr"
 
 # Set the bucket and table names
 S3_BUCKET_NAME="tf-${PROJ_NAME}"
