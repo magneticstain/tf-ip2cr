@@ -22,3 +22,13 @@ module "ip2cr-test-suite" {
     subnets = var.subnets
     vpc = var.vpc
 }
+
+output "ip2cr-testing-metadata" {
+  value = [
+    module.ip2cr-test-suite.ip2cr-ec2-metadata,
+    module.ip2cr-test-suite.ip2cr-cf-distro-metadata,
+    module.ip2cr-test-suite.ip2cr-testing-alb-metadata,
+    module.ip2cr-test-suite.ip2cr-testing-nlb-metadata,
+    module.ip2cr-test-suite.ip2cr-testing-elb-metadata
+  ]
+}

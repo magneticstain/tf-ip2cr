@@ -27,6 +27,10 @@ resource "aws_security_group" "ip2cr-test-sg" {
   }
 }
 
+output "ip2cr-ec2-metadata" {
+  value = [aws_instance.ip2cr-test.arn, aws_instance.ip2cr-test.public_ip]
+}
+
 # cloudfront
 resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
   origin {
@@ -75,6 +79,10 @@ resource "aws_cloudfront_distribution" "ip2cr-cf-distro" {
   }
 }
 
+output "ip2cr-cf-distro-metadata" {
+  value = [aws_cloudfront_distribution.ip2cr-cf-distro.arn, aws_cloudfront_distribution.ip2cr-cf-distro.domain_name]
+}
+
 # elbs
 ## alb
 resource "aws_lb" "ip2cr-testing-alb" {
@@ -120,6 +128,10 @@ resource "aws_lb_listener" "ip2cr-testing-alb-listener" {
   tags = {
     app: "ip2cr-testing"
   }
+}
+
+output "ip2cr-testing-alb-metadata" {
+  value = [aws_lb.ip2cr-testing-alb.arn, aws_lb.ip2cr-testing-alb.dns_name]
 }
 
 ## nlb
@@ -170,6 +182,10 @@ resource "aws_lb_listener" "ip2cr-testing-nlb-listener" {
   }
 }
 
+output "ip2cr-testing-nlb-metadata" {
+  value = [aws_lb.ip2cr-testing-nlb.arn, aws_lb.ip2cr-testing-nlb.dns_name]
+}
+
 ## classic (aka ELBv1)
 resource "aws_elb" "ip2cr-testing-elb" {
   name                      = "IP2CR-Testing-ELB"
@@ -188,4 +204,8 @@ resource "aws_elb" "ip2cr-testing-elb" {
   tags = {
     app: "ip2cr-testing"
   }
+}
+
+output "ip2cr-testing-elb-metadata" {
+  value = [aws_elb.ip2cr-testing-elb.arn, aws_elb.ip2cr-testing-elb.dns_name]
 }
