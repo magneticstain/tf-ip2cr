@@ -6,9 +6,10 @@
 #
 
 PROJ_NAME="ip2cr"
+AWS_ACCT_NUM=""
 
 # Set the bucket and table names
-S3_BUCKET_NAME="tf-${PROJ_NAME}"
+S3_BUCKET_NAME="tf-${PROJ_NAME}-${AWS_ACCT_NUM}"
 DYNAMODB_TABLE_NAME="tf-${PROJ_NAME}"
 
 # Create S3 bucket
