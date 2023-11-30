@@ -14,7 +14,7 @@ DYNAMODB_TABLE_NAME="tf-${PROJ_NAME}"
 
 # Create S3 bucket
 echo "Creating S3 bucket..."
-aws s3api create-bucket --bucket $S3_BUCKET_NAME --region $AWS_REGION --profile $AWS_PROFILE
+aws s3api create-bucket --bucket $S3_BUCKET_NAME
 
 # Create DynamoDB table
 echo "Creating DynamoDB table..."
@@ -22,12 +22,10 @@ aws dynamodb create-table \
   --table-name $DYNAMODB_TABLE_NAME \
   --attribute-definitions AttributeName=LockID,AttributeType=S \
   --key-schema AttributeName=LockID,KeyType=HASH \
-  --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
-  --region $AWS_REGION \
-  --profile $AWS_PROFILE
+  --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
 
 # Wait for DynamoDB table to be created
 echo "Waiting for DynamoDB table to initialize..."
-aws dynamodb wait table-exists --table-name $DYNAMODB_TABLE_NAME --region $AWS_REGION --profile $AWS_PROFILE
+aws dynamodb wait table-exists --table-name $DYNAMODB_TABLE_NAME
 
 echo "S3 bucket and DynamoDB table created successfully!"
