@@ -1,4 +1,4 @@
-bucket = "tf-ip2cr-138277128026"
+bucket = "tf-ip2cr"
 key    = "terraform.tfstate"
 region = "us-east-1"
 
