@@ -7,7 +7,7 @@ resource "aws_instance" "ip2cr-test" {
   ami                 = var.ami_id
   instance_type       = "t2.micro"
   key_name            = var.key_pair_name
-  ipv6_address_count  = 1
+  # ipv6_address_count  = 1
 
   tags = {
     Name: "ip2cr-testing"
