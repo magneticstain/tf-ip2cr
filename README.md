@@ -49,9 +49,9 @@ Generate a `backend.tfvars` file in the project root and fill in the variables a
 ```hcl
 bucket = "<TF_S3_BUCKET_NAME>"
 key    = "terraform.tfstate"
-region = "<DEPLOY_REGION>"
 
 dynamodb_table = "<TF_DYNAMODB_TABLE_NAME>"
+region = "<DEPLOY_REGION>"
 
 ```
 
@@ -60,13 +60,13 @@ Example:
 ```hcl
 bucket = "tf-ip2cr-aws"
 key    = "terraform.tfstate"
-region = "us-east-1"
 
 dynamodb_table = "tf-ip2cr"
+region = "us-east-1"
 
 ```
 
-### Set TF Vars
+### Generate TF Vars
 
 Generate a `terraform.tfvars` file and fill in the variables as approriate.
 
