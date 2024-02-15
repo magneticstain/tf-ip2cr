@@ -24,21 +24,21 @@ The plans use S3 as a backend and DynamoDB for state tracking. A standalone Terr
 
 ```bash
 cd ./utils/generate_backend/
-export GOOGLE_PROJECT="<GCP_PROJECT_ID>"
 terraform init && terraform apply
 ```
 
-After Terraform completes its run, it should include the Cloud Storage bucket name in the output; keep this handy as we will need it for the next step.
+After Terraform completes its run, it should include the S3 bucket name and DynamoDB table name in the output; keep this handy as we will need it for the next step.
 
 Example:
 
 ```bash
-Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-tf-gcs-bucket-metadata = [
-  "tf-ip2cr-gcp-ce925bf29c4ee1b4-bucket-tfstate",
+tf-s3-bucket-metadata = [
+  "tf-ip2cr-20240215195635031500000001",
+  "tf-ip2cr",
 ]
 ```
 
