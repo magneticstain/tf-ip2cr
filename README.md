@@ -20,10 +20,50 @@ This should provide several vectors for testing IP2CR.
 
 ### Bootstrap the Prerequisite Resources
 
-The plans use S3 as a backend and DynamoDB for state tracking. A script is included to easily generate the resources needed to support this.
+The plans use S3 as a backend and DynamoDB for state tracking. A standalone Terraform plan is included to generate the prerequisite infrastructure to support this:
 
 ```bash
-./utils/generate_backend.sh
+cd ./utils/generate_backend/
+export GOOGLE_PROJECT="<GCP_PROJECT_ID>"
+terraform init && terraform apply
+```
+
+After Terraform completes its run, it should include the Cloud Storage bucket name in the output; keep this handy as we will need it for the next step.
+
+Example:
+
+```bash
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+tf-gcs-bucket-metadata = [
+  "tf-ip2cr-gcp-ce925bf29c4ee1b4-bucket-tfstate",
+]
+```
+
+#### Generate Backend Vars
+
+Generate a `backend.tfvars` file in the project root and fill in the variables as appropriate.
+
+```hcl
+bucket = "<TF_S3_BUCKET_NAME>"
+key    = "terraform.tfstate"
+region = "<DEPLOY_REGION>"
+
+dynamodb_table = "<TF_DYNAMODB_TABLE_NAME>"
+
+```
+
+Example:
+
+```hcl
+bucket = "tf-ip2cr-aws"
+key    = "terraform.tfstate"
+region = "us-east-1"
+
+dynamodb_table = "tf-ip2cr"
+
 ```
 
 ### Set TF Vars
