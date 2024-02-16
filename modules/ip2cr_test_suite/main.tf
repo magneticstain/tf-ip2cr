@@ -7,7 +7,7 @@ resource "aws_instance" "ip2cr-test" {
   ami                 = var.ami_id
   instance_type       = "t2.micro"
   key_name            = var.key_pair_name
-  # ipv6_address_count  = 1
+  ipv6_address_count  = 1
 
   tags = {
     Name: "ip2cr-testing"
@@ -28,7 +28,11 @@ resource "aws_security_group" "ip2cr-test-sg" {
 }
 
 output "ip2cr-ec2-metadata" {
-  value = [aws_instance.ip2cr-test.arn, aws_instance.ip2cr-test.public_ip]
+  value = [
+    aws_instance.ip2cr-test.arn,
+    aws_instance.ip2cr-test.public_ip,
+    aws_instance.ip2cr-test.ipv6_addresses
+  ]
 }
 
 # cloudfront
