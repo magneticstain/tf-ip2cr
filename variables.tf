@@ -5,13 +5,6 @@ variable "ami_id" {
     nullable = false
 }
 
-variable "key_pair_name" {
-    type = string
-    description = "Name of SSH key pair to use for access to test EC2 instance"
-    default = ""
-    nullable = false
-}
-
 variable "subnets" {
     type = list
     description = "IDs of subnets that load balancers should live in"
