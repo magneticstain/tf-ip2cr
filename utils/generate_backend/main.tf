@@ -20,7 +20,7 @@ resource "aws_dynamodb_table" "tf_backend-ip2cr" {
   }
 }
 
-output "tf-s3-bucket-metadata" {
+output "tf-ip2cr-metadata" {
   value = [
     resource.aws_s3_bucket.tf_backend-ip2cr.bucket,
     resource.aws_dynamodb_table.tf_backend-ip2cr.name
