@@ -13,6 +13,11 @@ terraform {
 
 provider "aws" {
   region  = "us-east-1"
+
+  assume_role {
+    # aws account alias is set as the name of the TF workspace and derived from that
+    role_arn = var.accounts[terraform.workspace]
+  }
 }
 
 module "ip2cr-test-suite" {
