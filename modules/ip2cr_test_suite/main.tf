@@ -73,6 +73,7 @@ resource "aws_internet_gateway" "ip2cr-igw" {
 resource "aws_instance" "ip2cr-test" {
   ami                 = var.ami_id
   instance_type       = "t2.micro"
+  subnet_id           = aws_subnet.ip2cr-subnet-1.id
   ipv6_address_count  = 1
 
   tags = {
