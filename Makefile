@@ -6,6 +6,7 @@ TF_BACKEND_CONFIG = ./backend.tfvars
 .PHONY: init plan apply destroy
 
 init:
+	terraform workspace select ${TF_TGT_ACCOUNT} || terraform workspace new ${TF_TGT_ACCOUNT}
 	terraform init -backend-config=$(TF_BACKEND_CONFIG)
 
 validate:
