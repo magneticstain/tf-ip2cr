@@ -4,23 +4,3 @@ variable "ami_id" {
     default = ""
     nullable = false
 }
-
-variable "subnets" {
-    type = list
-    description = "IDs of subnets that load balancers should live in"
-    default = []
-    nullable = false
-}
-
-variable "vpc" {
-    type = string
-    description = "VPC that load balancers should live in"
-    default = ""
-    nullable = false
-}
-
-variable "accounts" {
-    type = map(string)
-    description = "Mapping of aliases->IAM roles of accounts to rollout plans to"
-    default = {}
-}

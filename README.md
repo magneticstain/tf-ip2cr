@@ -36,7 +36,7 @@ Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-tf-s3-bucket-metadata = [
+tf-ip2cr-metadata = [
   "tf-ip2cr-20240215195635031500000001",
   "tf-ip2cr",
 ]
