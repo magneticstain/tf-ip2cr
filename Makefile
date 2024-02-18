@@ -3,7 +3,7 @@
 # Set the Terraform directory and backend configuration
 TF_BACKEND_CONFIG = ./backend.tfvars
 
-.PHONY: init plan apply destroy
+.PHONY: init plan apply auto-apply destroy auto-destroy
 
 init:
 	terraform workspace select ${TF_TGT_ACCOUNT} || terraform workspace new ${TF_TGT_ACCOUNT}
